@@ -1,18 +1,289 @@
 // !$*UTF8*$!
-// Xcode project file — open ClaudeBattery.xcodeproj in Xcode 15+
-// Minimum deployment: macOS 13.0
-// Swift 5.9
-//
-// IMPORTANT: This file was generated as a reference skeleton.
-// The canonical way to use it:
-//   1. Open Xcode → File → New → Project → macOS → App
-//   2. Set Product Name: ClaudeBattery
-//   3. Bundle ID: com.yourname.claude-battery
-//   4. Interface: SwiftUI  |  Life Cycle: AppKit App Delegate
-//   5. Deployment target: macOS 13.0
-//   6. Add all .swift files from ClaudeBattery/ to the target
-//   7. Set LSUIElement = YES in Info.plist (already done)
-//   8. Disable App Sandbox in Entitlements (needed for ~/.claude access)
-//   9. Build & Run
-//
-// Dependencies: None — pure Swift/SwiftUI/AppKit, no SPM packages required.
+{
+	archiveVersion = 1;
+	classes = {};
+	objectVersion = 56;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		9D4290C5D81C476696AEF565 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5310673D5F6247C6B69259B8 /* AppDelegate.swift */; };
+		1D9524ECCF4F478A87C989B8 /* ClaudeBatteryApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 824329322E1C4196B5988FA0 /* ClaudeBatteryApp.swift */; };
+		A6FC4EEF0DDC43FF8354F902 /* MenuBarManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68789C7CD070427D9D739AE1 /* MenuBarManager.swift */; };
+		2E78100498734F3694C84B13 /* DataSourceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35920FE2FE424FDCBC60036C /* DataSourceProtocol.swift */; };
+		38038F65EDA147C8BFADC391 /* HookBridgeDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 212FAA0DD03C4FCC931A2A60 /* HookBridgeDataSource.swift */; };
+		3C6B1EE58E22487FA84D8C7F /* ClaudeCodeDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0DBBDAD3A6245EBB75F37D5 /* ClaudeCodeDataSource.swift */; };
+		A0D0AB35F06D403C97851A5D /* ManualDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C0198AC781B4064965D93A1 /* ManualDataSource.swift */; };
+		DE69EFA89A7848D4B7409DC7 /* UsageData.swift in Sources */ = {isa = PBXBuildFile; fileRef = B34E45E6B4B74C26AEE555C4 /* UsageData.swift */; };
+		578C9F10ED8A4D0BB7630AA3 /* AppPreferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = 598C0675A35F49628C722F75 /* AppPreferences.swift */; };
+		5545E488AA5E422DBC317F61 /* PreferencesManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 201D2C354A61447180D6D3FC /* PreferencesManager.swift */; };
+		7139B192901943DAA0651AD1 /* UsageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F591E1301D2436B951AB781 /* UsageViewModel.swift */; };
+		E4DC29B264774BDF92296AB6 /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C14540E48625465980A0AB6C /* OnboardingView.swift */; };
+		A6232CB1557141179C517EFC /* PopoverView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B222B949CA32428E96F2B396 /* PopoverView.swift */; };
+		E17B9B59FA4248979C158B09 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17B6EFD2A88D41CF887A762D /* SettingsView.swift */; };
+		23F3A8D8C67046F9B6DF611F /* UsageGaugeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 918323B915E24718BB632436 /* UsageGaugeView.swift */; };
+		1E0D37A15A444EC593A60572 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = EED99A504F4A425A975C8CF3 /* Info.plist */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		59116B66625C4764BD9ED669 /* ClaudeBattery.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ClaudeBattery.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		5310673D5F6247C6B69259B8 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClaudeBattery/AppDelegate.swift; sourceTree = "<group>"; };
+		824329322E1C4196B5988FA0 /* ClaudeBatteryApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClaudeBattery/ClaudeBatteryApp.swift; sourceTree = "<group>"; };
+		68789C7CD070427D9D739AE1 /* MenuBarManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClaudeBattery/MenuBarManager.swift; sourceTree = "<group>"; };
+		35920FE2FE424FDCBC60036C /* DataSourceProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClaudeBattery/DataSources/DataSourceProtocol.swift; sourceTree = "<group>"; };
+		212FAA0DD03C4FCC931A2A60 /* HookBridgeDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClaudeBattery/DataSources/HookBridgeDataSource.swift; sourceTree = "<group>"; };
+		C0DBBDAD3A6245EBB75F37D5 /* ClaudeCodeDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClaudeBattery/DataSources/ClaudeCodeDataSource.swift; sourceTree = "<group>"; };
+		5C0198AC781B4064965D93A1 /* ManualDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClaudeBattery/DataSources/ManualDataSource.swift; sourceTree = "<group>"; };
+		B34E45E6B4B74C26AEE555C4 /* UsageData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClaudeBattery/Models/UsageData.swift; sourceTree = "<group>"; };
+		598C0675A35F49628C722F75 /* AppPreferences.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClaudeBattery/Models/AppPreferences.swift; sourceTree = "<group>"; };
+		201D2C354A61447180D6D3FC /* PreferencesManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClaudeBattery/Persistence/PreferencesManager.swift; sourceTree = "<group>"; };
+		5F591E1301D2436B951AB781 /* UsageViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClaudeBattery/ViewModels/UsageViewModel.swift; sourceTree = "<group>"; };
+		C14540E48625465980A0AB6C /* OnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClaudeBattery/Views/OnboardingView.swift; sourceTree = "<group>"; };
+		B222B949CA32428E96F2B396 /* PopoverView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClaudeBattery/Views/PopoverView.swift; sourceTree = "<group>"; };
+		17B6EFD2A88D41CF887A762D /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClaudeBattery/Views/SettingsView.swift; sourceTree = "<group>"; };
+		918323B915E24718BB632436 /* UsageGaugeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClaudeBattery/Views/UsageGaugeView.swift; sourceTree = "<group>"; };
+		EED99A504F4A425A975C8CF3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = ClaudeBattery/Info.plist; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		87C204AFE99A4FFAAA3FBE55 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		70C83DB2330D437798B7726F = {
+			isa = PBXGroup;
+			children = (
+				C74F1CA08CA140F681890788 /* ClaudeBattery */,
+				222D9535D6374202849FA8B0 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		C74F1CA08CA140F681890788 /* ClaudeBattery */ = {
+			isa = PBXGroup;
+			children = (
+				5310673D5F6247C6B69259B8 /* AppDelegate.swift */,
+				824329322E1C4196B5988FA0 /* ClaudeBatteryApp.swift */,
+				68789C7CD070427D9D739AE1 /* MenuBarManager.swift */,
+				35920FE2FE424FDCBC60036C /* DataSourceProtocol.swift */,
+				212FAA0DD03C4FCC931A2A60 /* HookBridgeDataSource.swift */,
+				C0DBBDAD3A6245EBB75F37D5 /* ClaudeCodeDataSource.swift */,
+				5C0198AC781B4064965D93A1 /* ManualDataSource.swift */,
+				B34E45E6B4B74C26AEE555C4 /* UsageData.swift */,
+				598C0675A35F49628C722F75 /* AppPreferences.swift */,
+				201D2C354A61447180D6D3FC /* PreferencesManager.swift */,
+				5F591E1301D2436B951AB781 /* UsageViewModel.swift */,
+				C14540E48625465980A0AB6C /* OnboardingView.swift */,
+				B222B949CA32428E96F2B396 /* PopoverView.swift */,
+				17B6EFD2A88D41CF887A762D /* SettingsView.swift */,
+				918323B915E24718BB632436 /* UsageGaugeView.swift */,
+				EED99A504F4A425A975C8CF3 /* Info.plist */,
+			);
+			name = ClaudeBattery;
+			sourceTree = "<group>";
+		};
+		222D9535D6374202849FA8B0 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				59116B66625C4764BD9ED669 /* ClaudeBattery.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		F5295B9D68AD4CCA965623AA /* ClaudeBattery */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 4360FC5475794E7EB9EBBD9A /* Build configuration list for PBXNativeTarget "ClaudeBattery" */;
+			buildPhases = (
+				517CE55977E54FE3AD9ED092 /* Sources */,
+				87C204AFE99A4FFAAA3FBE55 /* Frameworks */,
+				DC8043F54C7E4A118386813C /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = ClaudeBattery;
+			productName = ClaudeBattery;
+			productReference = 59116B66625C4764BD9ED669 /* ClaudeBattery.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		6F0D1DDB0A35426FA9538B3A /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1500;
+				LastUpgradeCheck = 1500;
+				TargetAttributes = {
+					F5295B9D68AD4CCA965623AA = {
+						CreatedOnToolsVersion = 15.0;
+					};
+				};
+			};
+			buildConfigurationList = E068CC5C0D5445ED9D54B9ED /* Build configuration list for PBXProject "ClaudeBattery" */;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 70C83DB2330D437798B7726F;
+			productRefGroup = 222D9535D6374202849FA8B0 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				F5295B9D68AD4CCA965623AA /* ClaudeBattery */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		DC8043F54C7E4A118386813C /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1E0D37A15A444EC593A60572 /* Info.plist in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		517CE55977E54FE3AD9ED092 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				9D4290C5D81C476696AEF565 /* AppDelegate.swift in Sources */,
+				1D9524ECCF4F478A87C989B8 /* ClaudeBatteryApp.swift in Sources */,
+				A6FC4EEF0DDC43FF8354F902 /* MenuBarManager.swift in Sources */,
+				2E78100498734F3694C84B13 /* DataSourceProtocol.swift in Sources */,
+				38038F65EDA147C8BFADC391 /* HookBridgeDataSource.swift in Sources */,
+				3C6B1EE58E22487FA84D8C7F /* ClaudeCodeDataSource.swift in Sources */,
+				A0D0AB35F06D403C97851A5D /* ManualDataSource.swift in Sources */,
+				DE69EFA89A7848D4B7409DC7 /* UsageData.swift in Sources */,
+				578C9F10ED8A4D0BB7630AA3 /* AppPreferences.swift in Sources */,
+				5545E488AA5E422DBC317F61 /* PreferencesManager.swift in Sources */,
+				7139B192901943DAA0651AD1 /* UsageViewModel.swift in Sources */,
+				E4DC29B264774BDF92296AB6 /* OnboardingView.swift in Sources */,
+				A6232CB1557141179C517EFC /* PopoverView.swift in Sources */,
+				E17B9B59FA4248979C158B09 /* SettingsView.swift in Sources */,
+				23F3A8D8C67046F9B6DF611F /* UsageGaugeView.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		B1C928609ED5407CBB422854 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				MACOSX_DEPLOYMENT_TARGET = 13.0;
+				SDKROOT = macosx;
+
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		20D1A7AF3CD9457CAC03C27A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				MACOSX_DEPLOYMENT_TARGET = 13.0;
+				SDKROOT = macosx;
+
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+			};
+			name = Release;
+		};
+		05F8C455E4A64AAD874BD1AB /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+
+				CODE_SIGN_ENTITLEMENTS = "";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = "";
+				ENABLE_HARDENED_RUNTIME = YES;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = ClaudeBattery/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 13.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.dmirty.claudebattery;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		B34765175A094778B422F6C5 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+
+				CODE_SIGN_ENTITLEMENTS = "";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = "";
+				ENABLE_HARDENED_RUNTIME = YES;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = ClaudeBattery/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 13.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.dmirty.claudebattery;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		E068CC5C0D5445ED9D54B9ED /* Build configuration list for PBXProject "ClaudeBattery" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				B1C928609ED5407CBB422854 /* Debug */,
+				20D1A7AF3CD9457CAC03C27A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		4360FC5475794E7EB9EBBD9A /* Build configuration list for PBXNativeTarget "ClaudeBattery" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				05F8C455E4A64AAD874BD1AB /* Debug */,
+				B34765175A094778B422F6C5 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 6F0D1DDB0A35426FA9538B3A /* Project object */;
+}
