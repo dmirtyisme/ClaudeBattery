@@ -37,7 +37,7 @@ final class ClaudeCodeDataSource: UsageDataSource {
         let windowStart = Date().addingTimeInterval(-windowHours * 3600)
         let resetDate = windowStart.addingTimeInterval(windowHours * 3600 * 2) // estimate next window
 
-        let (usedTokens, totalCost) = try await aggregateUsage(since: windowStart)
+        let (usedTokens, _) = try await aggregateUsage(since: windowStart)
 
         // We don't know the plan limit, so we ask the caller's prefs for it
         // Here we return raw token count; ViewModel will overlay the plan limit
