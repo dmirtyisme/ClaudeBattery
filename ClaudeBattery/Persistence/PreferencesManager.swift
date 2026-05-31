@@ -25,7 +25,9 @@ final class PreferencesManager: ObservableObject {
            let v = DataSourceType(rawValue: raw) { p.dataSource = v }
 
         if let raw = defaults.string(forKey: Key.displayMode.rawValue),
-           let v = DisplayMode(rawValue: raw) { p.displayMode = v }
+           let v = DisplayMode(rawValue: raw) ?? Self.migratedDisplayMode(raw) {
+            p.displayMode = v
+        }
 
         let interval = defaults.double(forKey: Key.refreshInterval.rawValue)
         if interval > 0 { p.refreshInterval = interval }
@@ -53,6 +55,10 @@ final class PreferencesManager: ObservableObject {
         }
 
         preferences = p
+    }
+
+    private static func migratedDisplayMode(_ raw: String) -> DisplayMode? {
+        raw == "compact" ? .compactCritical : nil
     }
 
     private func save() {

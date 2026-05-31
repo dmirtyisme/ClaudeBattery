@@ -112,6 +112,9 @@ struct SettingsView: View {
     private var displaySection: some View {
         VStack(alignment: .leading, spacing: 10) {
             sectionHeader("Menu Bar Display")
+            Text("Choose the compact value shown beside the gauge icon.")
+                .font(.caption)
+                .foregroundColor(.secondary)
             ForEach(DisplayMode.allCases) { mode in
                 HStack {
                     Image(systemName: prefsManager.preferences.displayMode == mode

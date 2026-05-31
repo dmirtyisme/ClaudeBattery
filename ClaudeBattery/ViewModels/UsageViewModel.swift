@@ -26,8 +26,37 @@ final class UsageViewModel: ObservableObject {
 
     var menuBarTitle: String {
         guard let data = usageData else { return "--%" }
-        let pct = Int(data.usagePercent * 100)
-        return "\(pct)%"
+        return menuBarString(mode: prefsManager.preferences.displayMode, data: data)
+    }
+
+    private func menuBarString(mode: DisplayMode, data: UsageData) -> String {
+        let used = Int(data.usagePercent * 100)
+        let remaining = 100 - used
+        let countdown = menuBarCountdown(data.timeUntilReset)
+
+        switch mode {
+        case .usedPercentage:
+            return "\(used)%"
+        case .remainingPercentage:
+            return "\(remaining)%"
+        case .usedAndRemaining:
+            return "\(used)/\(remaining)%"
+        case .resetCountdown:
+            return countdown
+        case .usedAndResetCountdown:
+            return "\(used)% · \(countdown)"
+        case .remainingAndResetCountdown:
+            return "\(remaining)% · \(countdown)"
+        case .compactCritical:
+            return data.usagePercent >= 0.70 ? "\(used)% · \(countdown)" : "\(used)%"
+        }
+    }
+
+    private func menuBarCountdown(_ timeInterval: TimeInterval) -> String {
+        let seconds = Int(max(0, timeInterval))
+        let hours = seconds / 3600
+        let minutes = (seconds % 3600) / 60
+        return hours > 0 ? "\(hours)h\(minutes)m" : "\(minutes)m"
     }
 
     // MARK: - Refresh

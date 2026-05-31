@@ -128,6 +128,13 @@ final class MenuBarManager {
                 self?.updateTitle()
             }
             .store(in: &cancellables)
+
+        PreferencesManager.shared.$preferences
+            .receive(on: RunLoop.main)
+            .sink { [weak self] _ in
+                self?.updateTitle()
+            }
+            .store(in: &cancellables)
     }
 
     private func updateTitle() {

@@ -37,28 +37,37 @@ enum DataSourceType: String, CaseIterable, Identifiable {
 }
 
 enum DisplayMode: String, CaseIterable, Identifiable {
-    case percentage     = "percentage"
-    case countdown      = "countdown"
-    case compact        = "compact"
-    case smart          = "smart"
+    case usedPercentage             = "percentage"
+    case remainingPercentage        = "remainingPercentage"
+    case usedAndRemaining           = "usedAndRemaining"
+    case resetCountdown             = "countdown"
+    case usedAndResetCountdown      = "usedAndResetCountdown"
+    case remainingAndResetCountdown = "remainingAndResetCountdown"
+    case compactCritical            = "smart"
 
     var id: String { rawValue }
 
     var displayName: String {
         switch self {
-        case .percentage: return "Percentage"
-        case .countdown:  return "Reset Countdown"
-        case .compact:    return "Compact Status"
-        case .smart:      return "Smart (Auto)"
+        case .usedPercentage:             return "Used percentage"
+        case .remainingPercentage:        return "Remaining percentage"
+        case .usedAndRemaining:           return "Used + remaining"
+        case .resetCountdown:             return "Reset countdown"
+        case .usedAndResetCountdown:      return "Used + reset countdown"
+        case .remainingAndResetCountdown: return "Remaining + reset countdown"
+        case .compactCritical:            return "Compact critical mode"
         }
     }
 
     var example: String {
         switch self {
-        case .percentage: return "🧠 72%"
-        case .countdown:  return "⏳ 3h 42m"
-        case .compact:    return "🟢"
-        case .smart:      return "Auto-selects"
+        case .usedPercentage:             return "75%"
+        case .remainingPercentage:        return "25%"
+        case .usedAndRemaining:           return "75/25%"
+        case .resetCountdown:             return "1h53m"
+        case .usedAndResetCountdown:      return "75% · 1h53m"
+        case .remainingAndResetCountdown: return "25% · 1h53m"
+        case .compactCritical:            return "75%, then 75% · 1h53m at 70%"
         }
     }
 }
@@ -107,7 +116,7 @@ enum ClaudePlan: String, CaseIterable, Identifiable {
 
 struct AppPreferences {
     var dataSource: DataSourceType = .hookBridge
-    var displayMode: DisplayMode   = .smart
+    var displayMode: DisplayMode   = .compactCritical
     var refreshInterval: TimeInterval = 60
     var launchAtLogin: Bool        = false
     var showPromptEstimates: Bool  = true
