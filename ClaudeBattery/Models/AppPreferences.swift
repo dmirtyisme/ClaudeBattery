@@ -49,13 +49,13 @@ enum DisplayMode: String, CaseIterable, Identifiable {
 
     var displayName: String {
         switch self {
-        case .usedPercentage:             return "Used percentage"
-        case .remainingPercentage:        return "Remaining percentage"
-        case .usedAndRemaining:           return "Used + remaining"
-        case .resetCountdown:             return "Reset countdown"
-        case .usedAndResetCountdown:      return "Used + reset countdown"
-        case .remainingAndResetCountdown: return "Remaining + reset countdown"
-        case .compactCritical:            return "Compact critical mode"
+        case .usedPercentage:             return "Current %"
+        case .remainingPercentage:        return "Remaining %"
+        case .usedAndRemaining:           return "Current / Remaining"
+        case .resetCountdown:             return "Reset time"
+        case .usedAndResetCountdown:      return "Current + Reset"
+        case .remainingAndResetCountdown: return "Remaining + Reset"
+        case .compactCritical:            return "Smart"
         }
     }
 
@@ -67,7 +67,7 @@ enum DisplayMode: String, CaseIterable, Identifiable {
         case .resetCountdown:             return "1h53m"
         case .usedAndResetCountdown:      return "75% · 1h53m"
         case .remainingAndResetCountdown: return "25% · 1h53m"
-        case .compactCritical:            return "75%, then 75% · 1h53m at 70%"
+        case .compactCritical:            return "75% → 75% · 1h53m"
         }
     }
 }
