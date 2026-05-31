@@ -27,8 +27,7 @@ struct OnboardingView: View {
     private var header: some View {
         VStack(alignment: .leading, spacing: 4) {
             HStack(spacing: 8) {
-                Image(systemName: "brain.head.profile")
-                    .foregroundColor(.accentColor)
+                StatusGlyphView(state: .notInstalled, size: 18)
                 Text("Claude Battery Setup")
                     .font(.headline)
             }
@@ -96,7 +95,7 @@ struct OnboardingView: View {
                     .disabled(isInstalling)
 
                     if isInstalling {
-                        ProgressView().scaleEffect(0.7)
+                        StatusGlyphView(state: .waitingForData, size: 14)
                     }
 
                     Spacer()

@@ -21,6 +21,7 @@
 		A6232CB1557141179C517EFC /* PopoverView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B222B949CA32428E96F2B396 /* PopoverView.swift */; };
 		E17B9B59FA4248979C158B09 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17B6EFD2A88D41CF887A762D /* SettingsView.swift */; };
 		23F3A8D8C67046F9B6DF611F /* UsageGaugeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 918323B915E24718BB632436 /* UsageGaugeView.swift */; };
+		AE46B360DA4D44429716325A /* StatusGlyphView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FB548E57D364620BBD781A2 /* StatusGlyphView.swift */; };
 		1E0D37A15A444EC593A60572 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = EED99A504F4A425A975C8CF3 /* Info.plist */; };
 /* End PBXBuildFile section */
 
@@ -41,6 +42,7 @@
 		B222B949CA32428E96F2B396 /* PopoverView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClaudeBattery/Views/PopoverView.swift; sourceTree = "<group>"; };
 		17B6EFD2A88D41CF887A762D /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClaudeBattery/Views/SettingsView.swift; sourceTree = "<group>"; };
 		918323B915E24718BB632436 /* UsageGaugeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClaudeBattery/Views/UsageGaugeView.swift; sourceTree = "<group>"; };
+		5FB548E57D364620BBD781A2 /* StatusGlyphView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClaudeBattery/Views/StatusGlyphView.swift; sourceTree = "<group>"; };
 		EED99A504F4A425A975C8CF3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = ClaudeBattery/Info.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -81,6 +83,7 @@
 				B222B949CA32428E96F2B396 /* PopoverView.swift */,
 				17B6EFD2A88D41CF887A762D /* SettingsView.swift */,
 				918323B915E24718BB632436 /* UsageGaugeView.swift */,
+				5FB548E57D364620BBD781A2 /* StatusGlyphView.swift */,
 				EED99A504F4A425A975C8CF3 /* Info.plist */,
 			);
 			name = ClaudeBattery;
@@ -178,6 +181,7 @@
 				A6232CB1557141179C517EFC /* PopoverView.swift in Sources */,
 				E17B9B59FA4248979C158B09 /* SettingsView.swift in Sources */,
 				23F3A8D8C67046F9B6DF611F /* UsageGaugeView.swift in Sources */,
+				AE46B360DA4D44429716325A /* StatusGlyphView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

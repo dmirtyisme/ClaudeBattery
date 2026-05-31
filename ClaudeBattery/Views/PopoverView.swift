@@ -116,7 +116,8 @@ struct PopoverView: View {
                 Spacer()
                 statRow(label: "Remaining", value: "\(100 - Int(data.usagePercent * 100))%")
                 Spacer()
-                VStack(alignment: .trailing, spacing: 2) {
+                HStack(spacing: 4) {
+                    StatusGlyphView(state: statusGlyphState(data.status), size: 14)
                     Text(data.status.label)
                         .font(.caption.bold())
                         .foregroundColor(statusColor(data.status))
@@ -126,9 +127,7 @@ struct PopoverView: View {
 
             if case .stale(let age) = viewModel.bridgeStatus {
                 HStack(spacing: 4) {
-                    Image(systemName: "clock.badge.exclamationmark")
-                        .font(.caption2)
-                        .foregroundColor(.orange)
+                    StatusGlyphView(state: .stale, size: 12)
                     Text("Data is \(staleAgeString(age)) old — start a Claude Code session to refresh")
                         .font(.caption2)
                         .foregroundColor(.orange)
@@ -179,9 +178,7 @@ struct PopoverView: View {
 
     private var waitingForDataView: some View {
         VStack(spacing: 10) {
-            Image(systemName: "antenna.radiowaves.left.and.right")
-                .font(.largeTitle)
-                .foregroundColor(.secondary)
+            StatusGlyphView(state: .waitingForData, size: 32)
             Text("Waiting for Claude Code usage data")
                 .font(.callout.bold())
                 .multilineTextAlignment(.center)
@@ -212,8 +209,7 @@ struct PopoverView: View {
 
     private var loadingView: some View {
         HStack {
-            ProgressView()
-                .scaleEffect(0.8)
+            StatusGlyphView(state: .waitingForData, size: 18)
             Text("Loading…")
                 .font(.callout)
                 .foregroundColor(.secondary)
@@ -297,6 +293,15 @@ struct PopoverView: View {
         case .medium:   return .orange
         case .critical: return .red
         case .depleted: return .gray
+        }
+    }
+
+    private func statusGlyphState(_ status: UsageStatus) -> StatusGlyphState {
+        switch status {
+        case .safe:     return .connectedSafe
+        case .medium:   return .connectedMedium
+        case .critical: return .connectedCritical
+        case .depleted: return .connectedCritical
         }
     }
 
