@@ -10,6 +10,7 @@ final class MenuBarManager {
     private var eventMonitor: Any?
     private let viewModel: UsageViewModel
     private var cancellables = Set<AnyCancellable>()
+    private var menuBarHostingView: PassthroughHostingView<MenuBarLabelView>?
 
     init(viewModel: UsageViewModel) {
         self.viewModel = viewModel
@@ -28,12 +29,11 @@ final class MenuBarManager {
 
     private func configureButton() {
         guard let button = statusItem.button else { return }
-        button.image = NSImage(systemSymbolName: "gauge", accessibilityDescription: "Claude Battery usage")
-        button.imagePosition = .imageLeading
-        button.title = viewModel.menuBarTitle
+        button.title = ""
         button.action = #selector(togglePopover)
         button.target = self
         button.sendAction(on: [.leftMouseUp, .rightMouseUp])
+        updateMenuBarContent()
     }
 
     @objc private func togglePopover(_ sender: NSStatusBarButton) {
@@ -118,27 +118,48 @@ final class MenuBarManager {
         viewModel.$usageData
             .receive(on: RunLoop.main)
             .sink { [weak self] _ in
-                self?.updateTitle()
+                self?.updateMenuBarContent()
             }
             .store(in: &cancellables)
 
         viewModel.$errorMessage
             .receive(on: RunLoop.main)
             .sink { [weak self] _ in
-                self?.updateTitle()
+                self?.updateMenuBarContent()
             }
             .store(in: &cancellables)
 
         PreferencesManager.shared.$preferences
             .receive(on: RunLoop.main)
             .sink { [weak self] _ in
-                self?.updateTitle()
+                self?.updateMenuBarContent()
             }
             .store(in: &cancellables)
     }
 
-    private func updateTitle() {
-        statusItem.button?.title = viewModel.menuBarTitle
+    private func updateMenuBarContent() {
+        guard let button = statusItem.button else { return }
+        let rootView = MenuBarLabelView(presentation: viewModel.menuBarPresentation)
+
+        if let menuBarHostingView {
+            menuBarHostingView.rootView = rootView
+        } else {
+            let hostingView = PassthroughHostingView(rootView: rootView)
+            hostingView.frame = button.bounds
+            hostingView.autoresizingMask = [.width, .height]
+            button.addSubview(hostingView)
+            menuBarHostingView = hostingView
+        }
+
+        if let menuBarHostingView {
+            statusItem.length = max(24, menuBarHostingView.fittingSize.width)
+        }
+    }
+}
+
+private final class PassthroughHostingView<Content: View>: NSHostingView<Content> {
+    override func hitTest(_ point: NSPoint) -> NSView? {
+        nil
     }
 }
 

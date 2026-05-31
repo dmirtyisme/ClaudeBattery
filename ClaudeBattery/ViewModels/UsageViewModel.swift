@@ -24,39 +24,49 @@ final class UsageViewModel: ObservableObject {
 
     // MARK: - Menu bar label
 
-    var menuBarTitle: String {
-        guard let data = usageData else { return "--%" }
-        return menuBarString(mode: prefsManager.preferences.displayMode, data: data)
-    }
+    var menuBarPresentation: MenuBarPresentation {
+        let prefs = prefsManager.preferences
+        guard let data = usageData else {
+            return MenuBarPresentation(progress: 0, title: "--%", tint: .monochrome, animated: prefs.animatedGauge)
+        }
 
-    private func menuBarString(mode: DisplayMode, data: UsageData) -> String {
         let used = Int(data.usagePercent * 100)
         let remaining = 100 - used
-        let countdown = menuBarCountdown(data.timeUntilReset)
+        let value = prefs.primaryPercentage == .used ? used : remaining
+        let percentage = prefs.primaryPercentage == .used ? "−\(value)%" : "\(value)%"
+        let countdown = prefs.showResetCountdown ? menuBarCountdown(data.timeUntilReset) : nil
+        let title = countdown.map { "\(percentage) · ↻ \($0)" } ?? percentage
 
-        switch mode {
-        case .usedPercentage:
-            return "\(used)%"
-        case .remainingPercentage:
-            return "\(remaining)%"
-        case .usedAndRemaining:
-            return "\(used)/\(remaining)%"
-        case .resetCountdown:
-            return countdown
-        case .usedAndResetCountdown:
-            return "\(used)% · \(countdown)"
-        case .remainingAndResetCountdown:
-            return "\(remaining)% · \(countdown)"
-        case .compactCritical:
-            return data.usagePercent >= 0.70 ? "\(used)% · \(countdown)" : "\(used)%"
+        return MenuBarPresentation(
+            progress: Double(value) / 100,
+            title: title,
+            tint: menuBarTint(value: value, prefs: prefs),
+            animated: prefs.animatedGauge
+        )
+    }
+
+    private func menuBarTint(value: Int, prefs: AppPreferences) -> MenuBarGaugeTint {
+        guard prefs.gaugeColorMode == .adaptive else { return .monochrome }
+
+        switch prefs.primaryPercentage {
+        case .used:
+            if value >= 90 { return .critical }
+            if value >= 70 { return .medium }
+            return .safe
+        case .remaining:
+            if value <= 10 { return .critical }
+            if value <= 30 { return .medium }
+            return .safe
         }
     }
 
-    private func menuBarCountdown(_ timeInterval: TimeInterval) -> String {
+    private func menuBarCountdown(_ timeInterval: TimeInterval) -> String? {
+        guard timeInterval > 0 else { return nil }
         let seconds = Int(max(0, timeInterval))
         let hours = seconds / 3600
         let minutes = (seconds % 3600) / 60
-        return hours > 0 ? "\(hours)h\(minutes)m" : "\(minutes)m"
+        if hours == 0 { return "\(minutes)m" }
+        return minutes == 0 ? "\(hours)h" : "\(hours)h\(minutes)m"
     }
 
     // MARK: - Refresh
@@ -130,6 +140,13 @@ final class UsageViewModel: ObservableObject {
             return ManualDataSource(prefsManager: prefsManager)
         }
     }
+}
+
+struct MenuBarPresentation {
+    let progress: Double
+    let title: String
+    let tint: MenuBarGaugeTint
+    let animated: Bool
 }
 
 // MARK: - BurnRateCalculator extension for percentage-based tracking

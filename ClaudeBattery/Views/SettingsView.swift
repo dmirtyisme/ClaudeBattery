@@ -107,32 +107,50 @@ struct SettingsView: View {
         }
     }
 
-    // MARK: - Display Mode
+    // MARK: - Menu Bar Display
 
     private var displaySection: some View {
         VStack(alignment: .leading, spacing: 10) {
-            sectionHeader("Menu Bar Display")
-            Text("Choose the compact value shown beside the gauge icon.")
-                .font(.caption)
-                .foregroundColor(.secondary)
-            ForEach(DisplayMode.allCases) { mode in
-                HStack {
-                    Image(systemName: prefsManager.preferences.displayMode == mode
-                          ? "checkmark.circle.fill" : "circle")
-                        .foregroundColor(prefsManager.preferences.displayMode == mode ? .accentColor : .secondary)
-                    VStack(alignment: .leading, spacing: 1) {
-                        Text(mode.displayName).font(.callout)
-                        Text(mode.example)
-                            .font(.caption.monospaced())
-                            .foregroundColor(.secondary)
-                    }
-                    Spacer()
-                }
-                .contentShape(Rectangle())
-                .onTapGesture {
-                    prefsManager.update { $0.displayMode = mode }
+            sectionHeader("Primary value")
+
+            Picker("Primary value", selection: primaryPercentageBinding) {
+                ForEach(PrimaryPercentage.allCases) { percentage in
+                    Text(percentage.displayName).tag(percentage)
                 }
             }
+            .labelsHidden()
+            .pickerStyle(.segmented)
+
+            sectionHeader("Menu bar options")
+                .padding(.top, 6)
+
+            Toggle("Show reset countdown", isOn: showResetCountdownBinding)
+                .font(.callout)
+
+            Toggle("Animated gauge", isOn: animatedGaugeBinding)
+                .font(.callout)
+
+            HStack {
+                Text("Gauge color mode")
+                    .font(.callout)
+                Spacer()
+                Picker("Gauge color mode", selection: gaugeColorModeBinding) {
+                    ForEach(GaugeColorMode.allCases) { mode in
+                        Text(mode.displayName).tag(mode)
+                    }
+                }
+                .labelsHidden()
+                .pickerStyle(.segmented)
+                .frame(width: 190)
+            }
+
+            HStack(spacing: 8) {
+                Text("Menu bar preview:")
+                    .font(.caption)
+                    .foregroundColor(.secondary)
+                MenuBarLabelView(presentation: previewPresentation)
+            }
+            .padding(.top, 4)
         }
     }
 
@@ -205,6 +223,48 @@ struct SettingsView: View {
     }
 
     // MARK: - Bindings
+
+    private var primaryPercentageBinding: Binding<PrimaryPercentage> {
+        Binding(
+            get: { prefsManager.preferences.primaryPercentage },
+            set: { newValue in prefsManager.update { $0.primaryPercentage = newValue } }
+        )
+    }
+
+    private var showResetCountdownBinding: Binding<Bool> {
+        Binding(
+            get: { prefsManager.preferences.showResetCountdown },
+            set: { newValue in prefsManager.update { $0.showResetCountdown = newValue } }
+        )
+    }
+
+    private var animatedGaugeBinding: Binding<Bool> {
+        Binding(
+            get: { prefsManager.preferences.animatedGauge },
+            set: { newValue in prefsManager.update { $0.animatedGauge = newValue } }
+        )
+    }
+
+    private var gaugeColorModeBinding: Binding<GaugeColorMode> {
+        Binding(
+            get: { prefsManager.preferences.gaugeColorMode },
+            set: { newValue in prefsManager.update { $0.gaugeColorMode = newValue } }
+        )
+    }
+
+    private var previewPresentation: MenuBarPresentation {
+        let prefs = prefsManager.preferences
+        let value = prefs.primaryPercentage == .used ? 75 : 25
+        let percentage = prefs.primaryPercentage == .used ? "−75%" : "25%"
+        let title = prefs.showResetCountdown ? "\(percentage) · ↻ 1h53m" : percentage
+        let tint: MenuBarGaugeTint = prefs.gaugeColorMode == .monochrome ? .monochrome : .medium
+        return MenuBarPresentation(
+            progress: Double(value) / 100,
+            title: title,
+            tint: tint,
+            animated: prefs.animatedGauge
+        )
+    }
 
     private var claudeCodePathBinding: Binding<String> {
         Binding(

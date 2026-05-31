@@ -5,7 +5,8 @@ final class PreferencesManager: ObservableObject {
 
     private let defaults = UserDefaults.standard
     private enum Key: String {
-        case dataSource, displayMode, refreshInterval, launchAtLogin
+        case dataSource, displayMode, primaryPercentage, showResetCountdown
+        case animatedGauge, gaugeColorMode, refreshInterval, launchAtLogin
         case showPromptEstimates, manualPlan, manualCustomTokens
         case manualUsedTokens, manualResetDate, claudeCodePath
     }
@@ -24,9 +25,24 @@ final class PreferencesManager: ObservableObject {
         if let raw = defaults.string(forKey: Key.dataSource.rawValue),
            let v = DataSourceType(rawValue: raw) { p.dataSource = v }
 
-        if let raw = defaults.string(forKey: Key.displayMode.rawValue),
-           let v = DisplayMode(rawValue: raw) ?? Self.migratedDisplayMode(raw) {
-            p.displayMode = v
+        if let raw = defaults.string(forKey: Key.primaryPercentage.rawValue),
+           let v = PrimaryPercentage(rawValue: raw) {
+            p.primaryPercentage = v
+        } else if let raw = defaults.string(forKey: Key.displayMode.rawValue) {
+            let migrated = Self.migratedDisplayMode(raw)
+            p.primaryPercentage = migrated.primaryPercentage
+            p.showResetCountdown = migrated.showResetCountdown
+        }
+
+        if defaults.object(forKey: Key.showResetCountdown.rawValue) != nil {
+            p.showResetCountdown = defaults.bool(forKey: Key.showResetCountdown.rawValue)
+        }
+        if defaults.object(forKey: Key.animatedGauge.rawValue) != nil {
+            p.animatedGauge = defaults.bool(forKey: Key.animatedGauge.rawValue)
+        }
+        if let raw = defaults.string(forKey: Key.gaugeColorMode.rawValue),
+           let v = GaugeColorMode(rawValue: raw) {
+            p.gaugeColorMode = v
         }
 
         let interval = defaults.double(forKey: Key.refreshInterval.rawValue)
@@ -57,14 +73,26 @@ final class PreferencesManager: ObservableObject {
         preferences = p
     }
 
-    private static func migratedDisplayMode(_ raw: String) -> DisplayMode? {
-        raw == "compact" ? .compactCritical : nil
+    private static func migratedDisplayMode(_ raw: String) -> (primaryPercentage: PrimaryPercentage, showResetCountdown: Bool) {
+        switch raw {
+        case "remainingPercentage":
+            return (.remaining, false)
+        case "remainingAndResetCountdown":
+            return (.remaining, true)
+        case "usedAndResetCountdown", "countdown", "smart", "compact":
+            return (.used, true)
+        default:
+            return (.used, false)
+        }
     }
 
     private func save() {
         let p = preferences
         defaults.set(p.dataSource.rawValue, forKey: Key.dataSource.rawValue)
-        defaults.set(p.displayMode.rawValue, forKey: Key.displayMode.rawValue)
+        defaults.set(p.primaryPercentage.rawValue, forKey: Key.primaryPercentage.rawValue)
+        defaults.set(p.showResetCountdown, forKey: Key.showResetCountdown.rawValue)
+        defaults.set(p.animatedGauge, forKey: Key.animatedGauge.rawValue)
+        defaults.set(p.gaugeColorMode.rawValue, forKey: Key.gaugeColorMode.rawValue)
         defaults.set(p.refreshInterval, forKey: Key.refreshInterval.rawValue)
         defaults.set(p.launchAtLogin, forKey: Key.launchAtLogin.rawValue)
         defaults.set(p.showPromptEstimates, forKey: Key.showPromptEstimates.rawValue)

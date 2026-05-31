@@ -9,6 +9,63 @@ enum StatusGlyphState {
     case notInstalled
 }
 
+enum MenuBarGaugeTint {
+    case safe
+    case medium
+    case critical
+    case monochrome
+}
+
+struct MenuBarLabelView: View {
+    let presentation: MenuBarPresentation
+
+    var body: some View {
+        HStack(spacing: 4) {
+            MenuBarCircularGauge(
+                progress: presentation.progress,
+                tint: presentation.tint,
+                animated: presentation.animated
+            )
+            .frame(width: 14, height: 14)
+
+            Text(presentation.title)
+                .font(.system(size: 12, weight: .medium, design: .monospaced))
+        }
+        .padding(.horizontal, 4)
+    }
+}
+
+struct MenuBarCircularGauge: View {
+    let progress: Double
+    let tint: MenuBarGaugeTint
+    let animated: Bool
+
+    var body: some View {
+        ZStack {
+            Circle()
+                .stroke(color.opacity(0.22), lineWidth: 2)
+            Circle()
+                .trim(from: 0, to: clampedProgress)
+                .stroke(color, style: StrokeStyle(lineWidth: 2, lineCap: .round))
+                .rotationEffect(.degrees(-90))
+                .animation(animated ? .easeInOut(duration: 0.45) : nil, value: clampedProgress)
+        }
+    }
+
+    private var clampedProgress: Double {
+        min(1, max(0, progress))
+    }
+
+    private var color: Color {
+        switch tint {
+        case .safe:       return .green
+        case .medium:     return .orange
+        case .critical:   return .red
+        case .monochrome: return .accentColor
+        }
+    }
+}
+
 /// Compact animated status artwork used anywhere the interface needs a state glyph.
 struct StatusGlyphView: View {
     let state: StatusGlyphState

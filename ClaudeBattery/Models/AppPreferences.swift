@@ -36,38 +36,30 @@ enum DataSourceType: String, CaseIterable, Identifiable {
     var isExactSource: Bool { self == .hookBridge || self == .manual }
 }
 
-enum DisplayMode: String, CaseIterable, Identifiable {
-    case usedPercentage             = "percentage"
-    case remainingPercentage        = "remainingPercentage"
-    case usedAndRemaining           = "usedAndRemaining"
-    case resetCountdown             = "countdown"
-    case usedAndResetCountdown      = "usedAndResetCountdown"
-    case remainingAndResetCountdown = "remainingAndResetCountdown"
-    case compactCritical            = "smart"
+enum PrimaryPercentage: String, CaseIterable, Identifiable {
+    case used
+    case remaining
 
     var id: String { rawValue }
 
     var displayName: String {
         switch self {
-        case .usedPercentage:             return "Current %"
-        case .remainingPercentage:        return "Remaining %"
-        case .usedAndRemaining:           return "Current / Remaining"
-        case .resetCountdown:             return "Reset time"
-        case .usedAndResetCountdown:      return "Current + Reset"
-        case .remainingAndResetCountdown: return "Remaining + Reset"
-        case .compactCritical:            return "Smart"
+        case .used:      return "Used"
+        case .remaining: return "Remaining"
         }
     }
+}
 
-    var example: String {
+enum GaugeColorMode: String, CaseIterable, Identifiable {
+    case adaptive
+    case monochrome
+
+    var id: String { rawValue }
+
+    var displayName: String {
         switch self {
-        case .usedPercentage:             return "75%"
-        case .remainingPercentage:        return "25%"
-        case .usedAndRemaining:           return "75/25%"
-        case .resetCountdown:             return "1h53m"
-        case .usedAndResetCountdown:      return "75% · 1h53m"
-        case .remainingAndResetCountdown: return "25% · 1h53m"
-        case .compactCritical:            return "75% → 75% · 1h53m"
+        case .adaptive:   return "Adaptive"
+        case .monochrome: return "Monochrome"
         }
     }
 }
@@ -116,7 +108,10 @@ enum ClaudePlan: String, CaseIterable, Identifiable {
 
 struct AppPreferences {
     var dataSource: DataSourceType = .hookBridge
-    var displayMode: DisplayMode   = .compactCritical
+    var primaryPercentage: PrimaryPercentage = .used
+    var showResetCountdown: Bool   = true
+    var animatedGauge: Bool        = true
+    var gaugeColorMode: GaugeColorMode = .adaptive
     var refreshInterval: TimeInterval = 60
     var launchAtLogin: Bool        = false
     var showPromptEstimates: Bool  = true
