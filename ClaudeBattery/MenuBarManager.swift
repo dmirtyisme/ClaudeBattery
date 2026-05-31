@@ -28,7 +28,9 @@ final class MenuBarManager {
 
     private func configureButton() {
         guard let button = statusItem.button else { return }
-        button.title = "⏳"
+        button.image = NSImage(systemSymbolName: "gauge", accessibilityDescription: "Claude Battery usage")
+        button.imagePosition = .imageLeading
+        button.title = viewModel.menuBarTitle
         button.action = #selector(togglePopover)
         button.target = self
         button.sendAction(on: [.leftMouseUp, .rightMouseUp])
@@ -122,8 +124,8 @@ final class MenuBarManager {
 
         viewModel.$errorMessage
             .receive(on: RunLoop.main)
-            .sink { [weak self] error in
-                if error != nil { self?.statusItem.button?.title = "⚠️" }
+            .sink { [weak self] _ in
+                self?.updateTitle()
             }
             .store(in: &cancellables)
     }

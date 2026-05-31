@@ -25,32 +25,9 @@ final class UsageViewModel: ObservableObject {
     // MARK: - Menu bar label
 
     var menuBarTitle: String {
-        guard let data = usageData else { return "⏳" }
-        if !bridgeStatus.isInstalled && prefsManager.preferences.dataSource == .hookBridge {
-            return "⚙️"
-        }
-        let prefs = prefsManager.preferences
-        return menuBarString(prefs: prefs, data: data)
-    }
-
-    private func menuBarString(prefs: AppPreferences, data: UsageData) -> String {
-        let mode = effectiveDisplayMode(prefs: prefs, data: data)
+        guard let data = usageData else { return "--%" }
         let pct = Int(data.usagePercent * 100)
-        switch mode {
-        case .percentage:
-            return "\(data.status.emoji) \(pct)%"
-        case .countdown:
-            return "⏳ \(data.resetCountdownString)"
-        case .compact:
-            return data.status.emoji
-        case .smart:
-            return "\(data.status.emoji) \(pct)%"
-        }
-    }
-
-    private func effectiveDisplayMode(prefs: AppPreferences, data: UsageData) -> DisplayMode {
-        if prefs.displayMode != .smart { return prefs.displayMode }
-        return data.usagePercent >= 0.70 || data.timeUntilReset < 3600 ? .countdown : .percentage
+        return "\(pct)%"
     }
 
     // MARK: - Refresh
