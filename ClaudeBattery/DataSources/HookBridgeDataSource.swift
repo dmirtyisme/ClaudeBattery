@@ -30,8 +30,9 @@ final class HookBridgeDataSource: UsageDataSource {
     static let bridgeFilePath = "~/.claude/usage-state.json"
     static let bridgeScriptPath = "~/.claude/statusline-bridge.sh"
 
-    // Data is considered stale after this many seconds — show "offline" state
-    static let staleThresholdSeconds: TimeInterval = 3600
+    // Data is considered stale after this many seconds — show "offline" state.
+    // Five-hour window data remains meaningful up to 5 hours after the last update.
+    static let staleThresholdSeconds: TimeInterval = 5 * 3600
 
     private let stateFilePath: String
 
@@ -50,16 +51,18 @@ final class HookBridgeDataSource: UsageDataSource {
         let updatedAt = Date(timeIntervalSince1970: state.updated_at)
         let staleness = -updatedAt.timeIntervalSinceNow
 
-        if staleness > Self.staleThresholdSeconds {
-            throw HookBridgeError.staleData(ageSeconds: Int(staleness))
-        }
-
         // Prefer five_hour; fall back to seven_day
         guard let window = state.five_hour ?? state.seven_day else {
             throw HookBridgeError.noWindowData
         }
 
         let resetDate = Date(timeIntervalSince1970: window.resets_at)
+
+        // Data is valid as long as the rate-limit window hasn't reset yet, OR it's recent enough.
+        let windowStillActive = resetDate > Date()
+        if !windowStillActive && staleness > Self.staleThresholdSeconds {
+            throw HookBridgeError.staleData(ageSeconds: Int(staleness))
+        }
 
         return UsageData(
             usedTokens: Int(window.used_percentage * 1000),  // Synthetic — we only have %
