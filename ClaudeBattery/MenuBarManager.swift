@@ -29,11 +29,13 @@ final class MenuBarManager {
 
     private func configureButton() {
         guard let button = statusItem.button else { return }
+        button.image = nil
         button.title = ""
+        button.attributedTitle = NSAttributedString()
+        button.toolTip = "Claude Battery"
         button.action = #selector(togglePopover)
         button.target = self
         button.sendAction(on: [.leftMouseUp, .rightMouseUp])
-        updateMenuBarContent()
     }
 
     @objc private func togglePopover(_ sender: NSStatusBarButton) {
@@ -135,6 +137,13 @@ final class MenuBarManager {
                 self?.updateMenuBarContent()
             }
             .store(in: &cancellables)
+
+        viewModel.$bridgeStatus
+            .receive(on: RunLoop.main)
+            .sink { [weak self] _ in
+                self?.updateMenuBarContent()
+            }
+            .store(in: &cancellables)
     }
 
     private func updateMenuBarContent() {
@@ -161,13 +170,17 @@ private final class PassthroughHostingView<Content: View>: NSHostingView<Content
     override func hitTest(_ point: NSPoint) -> NSView? {
         nil
     }
+
+
 }
 
 // MARK: - NSMenuItem builder helper
+
 
 private extension NSMenuItem {
     func also(_ configure: (NSMenuItem) -> Void) -> NSMenuItem {
         configure(self)
         return self
     }
+
 }

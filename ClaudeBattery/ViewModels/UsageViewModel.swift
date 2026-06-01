@@ -1,4 +1,5 @@
 import Foundation
+import AppKit
 import Combine
 
 @MainActor
@@ -33,9 +34,9 @@ final class UsageViewModel: ObservableObject {
         let used = Int(data.usagePercent * 100)
         let remaining = 100 - used
         let value = prefs.primaryPercentage == .used ? used : remaining
-        let percentage = prefs.primaryPercentage == .used ? "−\(value)%" : "\(value)%"
+        let percentage = "\(value)%"
         let countdown = prefs.showResetCountdown ? menuBarCountdown(data.timeUntilReset) : nil
-        let title = countdown.map { "\(percentage) · ↻ \($0)" } ?? percentage
+        let title = countdown.map { "\(percentage) \($0)" } ?? percentage
 
         return MenuBarPresentation(
             progress: Double(value) / 100,
@@ -65,8 +66,7 @@ final class UsageViewModel: ObservableObject {
         let seconds = Int(max(0, timeInterval))
         let hours = seconds / 3600
         let minutes = (seconds % 3600) / 60
-        if hours == 0 { return "\(minutes)m" }
-        return minutes == 0 ? "\(hours)h" : "\(hours)h\(minutes)m"
+        return String(format: "%d:%02d", hours, minutes)
     }
 
     // MARK: - Refresh
@@ -147,6 +147,60 @@ struct MenuBarPresentation {
     let title: String
     let tint: MenuBarGaugeTint
     let animated: Bool
+}
+
+
+extension UsageViewModel {
+    // MARK: - Menu bar arc rendering
+    // NOTE: _arcLabelText / _arcLabelColor are intentionally prefixed to avoid
+    // colliding with your existing display-mode logic. Wire them to your
+    // existing methods if you want DisplayMode preferences to affect the label.
+
+    var menuBarImage: NSImage {
+        guard let data = usageData else { return ArcStatusImage.makeIdle() }
+        return ArcStatusImage.make(percent: data.usagePercent, status: data.status)
+    }
+
+    var menuBarAttributedLabel: NSAttributedString {
+        guard let data = usageData else { return NSAttributedString() }
+        let text = _arcLabelText(for: data)
+        guard !text.isEmpty else { return NSAttributedString() }
+        return NSAttributedString(string: text, attributes: [
+            .font: NSFont.monospacedDigitSystemFont(ofSize: 12, weight: .regular),
+            .foregroundColor: _arcLabelColor(for: data.status)
+        ])
+    }
+
+    var menuBarToolTip: String {
+        guard let data = usageData else { return "Claude Battery — waiting for data" }
+        let pct  = max(0, Int(data.usagePercent * 100))
+        let rem  = max(0, 100 - pct)
+        let secs = max(0, Int(data.timeUntilReset))
+        let age  = Int(-data.lastUpdated.timeIntervalSinceNow)
+        let ago: String
+        if age < 60 { ago = "just now" }
+        else if age < 3600 { ago = "\(age / 60)m ago" }
+        else { ago = "\(age / 3600)h ago" }
+        return "Used: \(pct)%\nRemaining: \(rem)%\nResets in: \(secs / 3600):\(String(format: "%02d", (secs % 3600) / 60))\nLast updated: \(ago)"
+    }
+
+    private func _arcLabelText(for data: UsageData) -> String {
+        let pct  = max(0, Int(data.usagePercent * 100))
+        let secs = max(0, Int(data.timeUntilReset))
+        let cd   = "\(secs / 3600):\(String(format: "%02d", (secs % 3600) / 60))"
+        if data.usagePercent >= 0.70 || data.timeUntilReset < 3600 {
+            return "\(pct)% \(cd)"
+        }
+        return "\(pct)%"
+    }
+
+    private func _arcLabelColor(for status: UsageStatus) -> NSColor {
+        switch status {
+        case .safe:                return .labelColor
+        case .medium:              return .systemOrange
+        case .critical, .depleted: return .systemRed
+        }
+    }
 }
 
 // MARK: - BurnRateCalculator extension for percentage-based tracking
