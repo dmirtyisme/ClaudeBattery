@@ -22,7 +22,6 @@
 		E17B9B59FA4248979C158B09 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17B6EFD2A88D41CF887A762D /* SettingsView.swift */; };
 		23F3A8D8C67046F9B6DF611F /* UsageGaugeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 918323B915E24718BB632436 /* UsageGaugeView.swift */; };
 		AE46B360DA4D44429716325A /* StatusGlyphView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FB548E57D364620BBD781A2 /* StatusGlyphView.swift */; };
-		1E0D37A15A444EC593A60572 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = EED99A504F4A425A975C8CF3 /* Info.plist */; };
 		AA000036000000000000AAAA /* ArcStatusImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA000035000000000000AAAA /* ArcStatusImage.swift */; };
 /* End PBXBuildFile section */
 
@@ -158,7 +157,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1E0D37A15A444EC593A60572 /* Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
