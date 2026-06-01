@@ -8,6 +8,7 @@ final class MenuBarManager {
     private var statusItem: NSStatusItem!
     private var popover: NSPopover!
     private var eventMonitor: Any?
+    private var settingsWindow: NSWindow?
     private let viewModel: UsageViewModel
     private var cancellables = Set<AnyCancellable>()
     private var menuBarHostingView: PassthroughHostingView<MenuBarLabelView>?
@@ -103,13 +104,24 @@ final class MenuBarManager {
     }
 
     @objc private func openSettings() {
+        if let existingWindow = settingsWindow {
+            existingWindow.makeKeyAndOrderFront(nil)
+            NSApp.activate(ignoringOtherApps: true)
+            return
+        }
+
         let settingsView = SettingsView().environmentObject(PreferencesManager.shared)
         let controller = NSHostingController(rootView: settingsView)
         let window = NSWindow(contentViewController: controller)
+
         window.title = "Claude Battery Settings"
-        window.styleMask = [.titled, .closable]
+        window.styleMask = [.titled, .closable, .miniaturizable]
         window.setContentSize(NSSize(width: 420, height: 560))
         window.center()
+        window.isReleasedWhenClosed = false
+
+        settingsWindow = window
+
         window.makeKeyAndOrderFront(nil)
         NSApp.activate(ignoringOtherApps: true)
     }

@@ -45,7 +45,7 @@
 		918323B915E24718BB632436 /* UsageGaugeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClaudeBattery/Views/UsageGaugeView.swift; sourceTree = "<group>"; };
 		5FB548E57D364620BBD781A2 /* StatusGlyphView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClaudeBattery/Views/StatusGlyphView.swift; sourceTree = "<group>"; };
 		EED99A504F4A425A975C8CF3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = ClaudeBattery/Info.plist; sourceTree = "<group>"; };
-		AA000035000000000000AAAA /* ArcStatusImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArcStatusImage.swift; sourceTree = "<group>"; };
+		AA000035000000000000AAAA /* ArcStatusImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClaudeBattery/Views/ArcStatusImage.swift; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
